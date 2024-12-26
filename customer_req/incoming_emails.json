@@ -1,0 +1,12 @@
+{
+    "emails": [
+      {
+        "id": 1,
+        "from": "customer@example.com",
+        "date": "2020-05-10",
+        "subject": "Inquiry about scheduling a new appointment",
+        "body": "Hello, I'd like to schedule a new appointment next week. Please let me know which dates are available."
+      }
+    ],
+    "last_processed_id": 0
+  }
