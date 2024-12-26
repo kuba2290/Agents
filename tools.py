@@ -1,14 +1,8 @@
-import json
 import os
+import json
+import logging
 
-import requests
-from dotenv import load_dotenv
-
-# Load environment variables (Mailgun config, for example)
-load_dotenv()
-MAILGUN_API_KEY = os.getenv("MAILGUN_API_KEY", "")
-MAILGUN_DOMAIN = os.getenv("MAILGUN_DOMAIN", "")
-MAILGUN_API_URL = f"https://api.mailgun.net/v3/{MAILGUN_DOMAIN}/messages.mime"
+logger = logging.getLogger(__name__)
 
 def get_appointments(parameters: dict) -> dict:
     """
@@ -19,75 +13,48 @@ def get_appointments(parameters: dict) -> dict:
       }
     """
     date_str = parameters.get("date")
-    schedule_file = os.path.join("src", "data", "schedule.json")
-    with open(schedule_file, 'r') as file:
-        schedule_data = json.load(file)
+    schedule_file = r"D:\Agents\schedule.json"
+    
+    logger.debug(f"Looking for schedule file at: {schedule_file}")
+    logger.debug(f"File exists: {os.path.exists(schedule_file)}")
+    
+    # Create default data if file doesn't exist
+    if not os.path.exists(schedule_file):
+        logger.info("Schedule file not found, creating default data")
+        default_data = {
+            "appointments": [
+                {
+                    "date": date_str,
+                    "time": "09:00",
+                    "status": "available"
+                },
+                {
+                    "date": date_str,
+                    "time": "10:00",
+                    "status": "available"
+                }
+            ]
+        }
+        try:
+            with open(schedule_file, 'w') as file:
+                json.dump(default_data, file, indent=4)
+            logger.debug("Created new schedule file with default data")
+            return default_data
+        except Exception as e:
+            logger.error(f"Failed to create schedule file: {str(e)}")
+            raise
 
-    appointments_for_date = [
-        appt for appt in schedule_data["appointments"] if appt["date"] == date_str
-    ]
-    return {"appointments": appointments_for_date}
-
-def read_knowledgebase(parameters: dict) -> str:
-    """
-    Read data from company_secrets.md. 
-    Optionally search by keyword if given in 'parameters["keyword"]'.
-    """
-    keyword = parameters.get("keyword", "")
-    kb_file = os.path.join("docs", "company_secrets.md")
-    with open(kb_file, 'r', encoding='utf-8') as file:
-        kb_data = file.read()
-
-    if keyword:
-        # In a real system, you might add logic to highlight or extract relevant sections
-        # For now, let's just ensure the data is returned.
-        pass
-
-    return kb_data
-
-def _create_mime_message(to: str, subject: str, html_content: str, text_content: str) -> str:
-    """
-    Builds a MIME multipart string for sending via Mailgun
-    """
-    from email.mime.multipart import MIMEMultipart
-    from email.mime.text import MIMEText
-
-    message = MIMEMultipart('alternative')
-    message['From'] = f"support@{MAILGUN_DOMAIN}"
-    message['To'] = to
-    message['Subject'] = subject
-
-    part1 = MIMEText(text_content, 'plain')
-    part2 = MIMEText(html_content, 'html')
-    message.attach(part1)
-    message.attach(part2)
-
-    return message.as_string()
-
-def send_email(parameters: dict) -> dict:
-    """
-    Send an email via Mailgun using the messages.mime endpoint.
-    parameters:
-      {
-        "to": "customer@example.com",
-        "subject": "Subject text",
-        "html_content": "<p>Hello</p>",
-        "text_content": "Hello"
-      }
-    """
-    to = parameters.get("to")
-    subject = parameters.get("subject")
-    html_content = parameters.get("html_content")
-    text_content = parameters.get("text_content")
-
-    if not MAILGUN_API_KEY or not MAILGUN_DOMAIN:
-        return {"status": "error", "message": "Mailgun config missing"}
-
-    mime_msg = _create_mime_message(to, subject, html_content, text_content)
-    response = requests.post(
-        MAILGUN_API_URL,
-        auth=("api", MAILGUN_API_KEY),
-        files={"message": ("message.mime", mime_msg, "application/octet-stream")},
-        data={"to": to}
-    )
-    return response.json() 
+    try:
+        with open(schedule_file, 'r') as file:
+            content = file.read()
+            logger.debug(f"Raw file content: {content}")
+            schedule_data = json.loads(content)
+            
+        appointments_for_date = [
+            appt for appt in schedule_data["appointments"] if appt["date"] == date_str
+        ]
+        logger.debug(f"Found {len(appointments_for_date)} appointments for date {date_str}")
+        return {"appointments": appointments_for_date}
+    except Exception as e:
+        logger.error(f"Error reading or parsing schedule file: {str(e)}")
+        raise 

@@ -1,3 +1,25 @@
 {
-  "structured_data": []
-} 
+    "structured_data": [
+        {
+            "intent": "schedule_appointment",
+            "appointment_date": "next_week",
+            "email": null
+        },
+        {
+            "email": "",
+            "intent": "Schedule Appointment"
+        },
+        {
+            "email": "",
+            "intent": "Schedule Appointment"
+        },
+        {
+            "email": "",
+            "intent": "Schedule Appointment"
+        },
+        {
+            "email": "",
+            "intent": "Schedule Appointment"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "appointments": [
+        {
+            "date": "2024-12-11",
+            "time": "09:00",
+            "status": "available"
+        },
+        {
+            "date": "2024-12-11",
+            "time": "10:00",
+            "status": "available"
+        },
+        {
+            "date": "2024-12-11",
+            "time": "11:00",
+            "status": "booked"
+        }
+    ]
+} 

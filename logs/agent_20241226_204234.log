@@ -1,0 +1,12 @@
+2024-12-26 20:42:34,363 - INFO - Logging initialized
+2024-12-26 20:42:34,364 - INFO - Starting email processing
+2024-12-26 20:42:34,364 - INFO - Loading emails from customer_req/incoming_emails.json
+2024-12-26 20:42:34,365 - INFO - Found 1 new emails to process
+2024-12-26 20:42:34,365 - INFO - Processing email ID: 1
+2024-12-26 20:42:34,365 - INFO - Extracting intent and structured data from email
+2024-12-26 20:42:35,902 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-26 20:42:35,910 - ERROR - Failed to extract data from email: Expecting value: line 1 column 1 (char 0)
+2024-12-26 20:42:35,911 - ERROR - Failed to process email ID 1: Expecting value: line 1 column 1 (char 0)
+2024-12-26 20:42:35,912 - ERROR - Error processing email 1: Expecting value: line 1 column 1 (char 0)
+2024-12-26 20:42:35,913 - INFO - Saving updated emails to customer_req/incoming_emails.json
+2024-12-26 20:42:35,914 - INFO - Email processing completed successfully

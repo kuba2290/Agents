@@ -1,0 +1,16 @@
+2024-12-26 20:20:19,606 - INFO - Logging initialized
+2024-12-26 20:20:19,606 - INFO - Starting email processing
+2024-12-26 20:20:19,607 - INFO - Loading emails from customer_req/incoming_emails.json
+2024-12-26 20:20:19,607 - INFO - Found 1 new emails to process
+2024-12-26 20:20:19,608 - INFO - Processing email ID: 1
+2024-12-26 20:20:19,608 - INFO - Extracting intent and structured data from email
+2024-12-26 20:20:23,168 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-26 20:20:23,173 - INFO - Saving structured data to D:\Agents\data.json
+2024-12-26 20:20:23,176 - INFO - Creating handling plan for intent: Schedule Appointment
+2024-12-26 20:20:33,670 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-26 20:20:33,672 - INFO - Parsing and executing plan
+2024-12-26 20:20:33,673 - INFO - Executed 0 tools successfully
+2024-12-26 20:20:37,156 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-26 20:20:38,204 - INFO - Successfully processed email ID: 1
+2024-12-26 20:20:38,205 - INFO - Saving updated emails to customer_req/incoming_emails.json
+2024-12-26 20:20:38,206 - INFO - Email processing completed successfully
