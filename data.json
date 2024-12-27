@@ -10,15 +10,8 @@
             "intent": "Schedule Appointment"
         },
         {
-            "email": "",
-            "intent": "Schedule Appointment"
-        },
-        {
-            "email": "",
-            "intent": "Schedule Appointment"
-        },
-        {
-            "email": "",
+            "email": "smide223@gmail.com",
+            "date": "2020-05-10",
             "intent": "Schedule Appointment"
         }
     ]

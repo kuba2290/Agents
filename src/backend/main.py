@@ -121,35 +121,44 @@ def parse_plan_and_execute(plan):
         logger.error(f"Error executing plan: {str(e)}")
         raise
 
-def get_intent_and_extract_structured_data(email_body):
+def get_intent_and_extract_structured_data(email):
     """Extracts intent and structured data from email"""
     logger.info("Extracting intent and structured data from email")
     try:
         client = openai.OpenAI()
+        
+        email_content = (
+            f"From: {email.get('from', '')}\n"
+            f"Subject: {email.get('subject', '')}\n"
+            f"Date: {email.get('date', '')}\n"
+            f"Body: {email.get('body', '')}"
+        )
+
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4",
             messages=[
                 {
                     "role": "system",
                     "content": (
-                        "You are an AI assistant that determines the intent of customer emails and "
-                        "extracts necessary information (email address, date, etc.). "
-                        "You must respond with a valid JSON object containing these fields:\n"
-                        "- email (string, required)\n"
-                        "- date (string, optional)\n"
-                        "- intent (string, required)\n\n"
-                        "Example: {\"email\": \"user@example.com\", \"intent\": \"Schedule Appointment\", \"date\": \"2024-01-01\"}"
+                        "You are a helpful assistant that reads an email and returns a JSON object "
+                        "with 'email', 'date', and 'intent' fields. Example:\n"
+                        '{ "email": "sender@example.com", "date": "2024-01-01", "intent": "Schedule Appointment" }'
                     )
                 },
                 {
                     "role": "user",
-                    "content": email_body
+                    "content": email_content
                 }
             ]
         )
+
         data = json.loads(response.choices[0].message.content)
-        logger.debug(f"Extracted data: {data}")
+        logger.info(f"Extracted data: {data}")
         return data
+
+    except json.JSONDecodeError as e:
+        logger.error(f"JSON parsing error: {str(e)}")
+        raise
     except Exception as e:
         logger.error(f"Failed to extract data from email: {str(e)}")
         raise
@@ -178,10 +187,10 @@ def process_email(email):
     """Process a single email"""
     logger.info(f"Processing email ID: {email.get('id')}")
     try:
-        email_body = email.get("body", "")
-        extracted_info = get_intent_and_extract_structured_data(email_body)
+        # Pass the entire email object instead of just the body
+        extracted_info = get_intent_and_extract_structured_data(email)
         save_structured_data_to_file(extracted_info)
-
+        
         plan = create_handling_plan(extracted_info.get("intent", ""))
         tool_results = parse_plan_and_execute(plan)
 
