@@ -1,22 +1,64 @@
-# Yoruba Translator
+# Pidgin English Translator
 
-This project aims to build a software application that uses OpenAI's GPT-4 model to translate the Nigerian Yoruba language to other languages such as Korean and Japanese.
+A modern web application that translates Pidgin English to various languages using OpenAI's GPT-4 model.
 
-## Project Structure
+## Features
 
-- **src/**: Contains the source code for the application.
-- **docs/**: Documentation related to the project.
-- **tests/**: Test cases for the application.
+- Translate Pidgin English to multiple languages
+- Real-time translation using GPT-4o
+- FastAPI backend
+- Support for multiple target languages
+
+PidginTranslator/
+├── backend/
+│ ├── src/
+│ │ ├── main.py # FastAPI server
+│ │ └── translator.py # Translation logic
+│ └── requirements.txt
 
 ## Setup
 
-1. Obtain an API key from OpenAI.
-2. Set up the environment variables in a `.env` file.
-3. Run the application using the provided scripts.
+### Backend
+
+1. Create a `.env` file in the backend directory:
+```
+
+2. Install dependencies:
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+3. Start the server:
+```bash
+uvicorn src.main:app --reload
+```
 
 ## Usage
 
-Users can input Yoruba text and select a target language for translation. The application will use GPT-4 to perform the translation.
+1. Open http://localhost:8000 in your browser
+2. Enter Pidgin English text in the input field
+3. Select your target language
+4. Click "Translate" or press Enter
+5. View your translation
+
+## Supported Languages
+
+- English
+- Spanish
+- French
+- German
+- Italian
+- Portuguese
+- Russian
+- Japanese
+- Korean
+- Chinese
+
+## Technologies Used
+
+- Backend: FastAPI, Python
+- API: OpenAI GPT-4o
 
 ## License
 

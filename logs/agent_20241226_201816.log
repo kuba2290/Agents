@@ -1,6 +1,0 @@
-2024-12-26 20:18:16,084 - INFO - Logging initialized
-2024-12-26 20:18:16,085 - INFO - Starting email processing
-2024-12-26 20:18:16,085 - INFO - Loading emails from customer_req/incoming_emails.json
-2024-12-26 20:18:16,086 - INFO - Found 0 new emails to process
-2024-12-26 20:18:16,086 - INFO - Saving updated emails to customer_req/incoming_emails.json
-2024-12-26 20:18:16,087 - INFO - Email processing completed successfully
