@@ -1,0 +1,6 @@
+openai>=1.40.0
+pydantic>=2.7.4,<3.0.0
+langchain-core>=0.2.38
+langchain-openai>=0.1.23
+langsmith>=0.1.94
+litellm>=1.44.1
